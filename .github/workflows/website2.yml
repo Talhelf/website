@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - app2/**
+
+name: website2
+jobs:
+  deploy:
+    name: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: echo
+      run: |
+        echo "CICD website 2"
