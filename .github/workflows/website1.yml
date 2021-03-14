@@ -40,3 +40,11 @@ jobs:
       working-directory: app1/
       run: |
         sed -i 's|VERSION|$GITHUB_RUN_NUMBER|g' app1/values.yaml
+        
+    - name: Push files
+      working-directory: canary-app/
+      run: |
+        git checkout main
+        git add .
+        git commit -m "Github Actions Automatically Built in `date +"%Y-%m-%d %H:%M"`" 
+        git push origin main
