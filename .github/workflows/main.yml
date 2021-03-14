@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - app1/**
+
+name: test
+jobs:
+  deploy:
+    name: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: echo
+      run: |
+        echo "hello"
