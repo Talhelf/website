@@ -12,10 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: echo
-      run: |
-        echo "CICD website 1"
-        
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -31,3 +27,8 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+      
+    - name: echo
+      run: |
+        echo "CICD website 1"
+        ls -la
