@@ -42,7 +42,7 @@ jobs:
         sed -i 's|VERSION|$GITHUB_RUN_NUMBER|g' app1/values.yaml
         
     - name: Push files
-      working-directory: canary-app/
+      working-directory: app1/
       run: |
         git checkout main
         git add .
