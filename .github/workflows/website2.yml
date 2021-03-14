@@ -15,3 +15,4 @@ jobs:
     - name: echo
       run: |
         echo "CICD website 2"
+        ls -la
