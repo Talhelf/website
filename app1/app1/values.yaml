@@ -1,3 +1,2 @@
 app: app1
-ecr: 663427703437.dkr.ecr.us-east-1.amazonaws.com/app1
-version: $GITHUB_RUN_NUMBER
+image: 663427703437.dkr.ecr.us-east-1.amazonaws.com/app1:1
