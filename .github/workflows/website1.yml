@@ -39,7 +39,7 @@ jobs:
     - name: Update Values files
       working-directory: app1/
       run: |
-        sed -i 's|VERSION|$GITHUB_RUN_NUMBER|g' app1/values.yaml
+        sed -i 's|image:.*|image: ${{ steps.build-image.outputs.image }}|g' app1/values.yaml
 
     - name: Push files
       working-directory: app1/
