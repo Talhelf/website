@@ -40,7 +40,17 @@ jobs:
       working-directory: app1/
       run: |
         sed -i 's|VERSION|$GITHUB_RUN_NUMBER|g' app1/values.yaml
-        
+
+    - name: Git init
+      working-directory: app1/
+      run: |
+        git init
+        git config --global user.email "${{ secrets.EMAIL }}"
+        git config --global user.name "${{ secrets.USERNAME }}"
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+        git remote set-url origin https://${{ secrets.USERNAME }}:${{ secrets.PASSWORD }}@github.com/${{ secrets.USERNAME }}/website.git
+        git pull origin main --allow-unrelated-histories
+
     - name: Push files
       working-directory: app1/
       run: |
