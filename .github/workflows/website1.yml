@@ -35,3 +35,8 @@ jobs:
         docker build -t 663427703437.dkr.ecr.us-east-1.amazonaws.com/app1:$GITHUB_RUN_NUMBER .
         docker push 663427703437.dkr.ecr.us-east-1.amazonaws.com/app1:$GITHUB_RUN_NUMBER
         echo "::set-output name=image::663427703437.dkr.ecr.us-east-1.amazonaws.com/app1:$GITHUB_RUN_NUMBER"
+        
+    - name: Update Values files
+      working-directory: app1/
+      run: |
+        sed -i 's|VERSION|$GITHUB_RUN_NUMBER|g' app1/values.yaml
