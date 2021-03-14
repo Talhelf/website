@@ -3,7 +3,7 @@ on:
     branches:
       - main
     paths:
-      - app2/**
+      - app2/index.html
 
 name: website2
 jobs:
@@ -12,7 +12,41 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: echo
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+          persist-credentials: false
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      working-directory: app2
       run: |
-        echo "CICD website 2"
-        ls -la
+        docker build -t 663427703437.dkr.ecr.us-east-1.amazonaws.com/app2:$GITHUB_RUN_NUMBER .
+        docker push 663427703437.dkr.ecr.us-east-1.amazonaws.com/app2:$GITHUB_RUN_NUMBER
+        echo "::set-output name=image::663427703437.dkr.ecr.us-east-1.amazonaws.com/app2:$GITHUB_RUN_NUMBER"
+        
+    - name: Update Values files
+      working-directory: app2/
+      run: |
+        sed -i 's|image:.*|image: ${{ steps.build-image.outputs.image }}|g' app2/values.yaml
+
+    - name: Push files
+      working-directory: app2/
+      run: |
+        git config --global user.email "${{ secrets.EMAIL }}"
+        git config --global user.name "${{ secrets.USERNAME }}"
+        git remote set-url origin https://${{ secrets.USERNAME }}:${{ secrets.PASSWORD }}@github.com/${{ secrets.USERNAME }}/website.git
+        git add .
+        git commit -m "Github Actions Automatically Built in `date +"%Y-%m-%d %H:%M"`" 
+        git push origin main
