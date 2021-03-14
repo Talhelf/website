@@ -5,7 +5,7 @@ on:
     paths:
       - app1/**
 
-name: test
+name: website1
 jobs:
   deploy:
     name: test
@@ -14,4 +14,4 @@ jobs:
     steps:
     - name: echo
       run: |
-        echo "hello"
+        echo "CICD website 1"
